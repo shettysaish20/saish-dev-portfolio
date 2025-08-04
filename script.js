@@ -116,23 +116,33 @@ document.addEventListener('DOMContentLoaded', function() {
     if (heroTitle) {
         const text = heroTitle.textContent;
         heroTitle.textContent = '';
-        heroTitle.style.borderRight = '2px solid var(--primary-color)';
         
         let i = 0;
         function typeWriter() {
             if (i < text.length) {
-                heroTitle.textContent += text.charAt(i);
+                heroTitle.textContent = text.substring(0, i + 1) + '|';
                 i++;
                 setTimeout(typeWriter, 100);
             } else {
-                setTimeout(() => {
-                    heroTitle.style.borderRight = 'none';
-                }, 1000);
+                // After typing is complete, blink cursor for 2 seconds then remove it
+                let blinkCount = 0;
+                const blinkInterval = setInterval(() => {
+                    if (heroTitle.textContent.endsWith('|')) {
+                        heroTitle.textContent = text;
+                    } else {
+                        heroTitle.textContent = text + '|';
+                    }
+                    blinkCount++;
+                    if (blinkCount > 5) { // Blink 5 times (2 seconds at 400ms intervals)
+                        clearInterval(blinkInterval);
+                        heroTitle.textContent = text; // Remove cursor
+                    }
+                }, 400);
             }
         }
-        
         setTimeout(typeWriter, 1000);
     }
+
 
     // Counter animation for stats
     function animateCounters() {

@@ -1111,6 +1111,17 @@ body::before {
     color: var(--primary-color);
 }
 
+/* .typing-cursor {
+    color: #00d4ff !important;
+    font-weight: 400 !important;
+    display: inline !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    animation: cursorBlink 1s infinite;
+    opacity: 1;
+} 
+*/
+
 /* Animations */
 @keyframes fadeInUp {
     from {
@@ -1156,6 +1167,24 @@ body::before {
         transform: translateY(-5px) translateX(-50%);
     }
 }
+
+/* @keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+@keyframes cursorBlink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {
