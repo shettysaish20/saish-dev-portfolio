@@ -1,0 +1,79 @@
+<!-- Project Placeholder 1: Navigators.AI -->
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0066cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bg1)"/>
+  
+  <!-- Navigation/Map lines -->
+  <path d="M 100 100 Q 200 150 300 100 T 500 120 T 700 100" stroke="#00d4ff" stroke-width="3" fill="none" opacity="0.6"/>
+  <path d="M 150 200 Q 250 250 350 200 T 550 220 T 650 200" stroke="#00ff88" stroke-width="2" fill="none" opacity="0.4"/>
+  
+  <!-- Location pins -->
+  <circle cx="150" cy="120" r="8" fill="#ff6b6b"/>
+  <path d="M 150 110 L 150 130 M 145 115 L 155 115" stroke="white" stroke-width="2"/>
+  
+  <circle cx="350" cy="180" r="8" fill="#ffd700"/>
+  <path d="M 350 170 L 350 190 M 345 175 L 355 175" stroke="white" stroke-width="2"/>
+  
+  <circle cx="600" cy="140" r="8" fill="#00ff88"/>
+  <path d="M 600 130 L 600 150 M 595 135 L 605 135" stroke="white" stroke-width="2"/>
+  
+  <!-- AI Brain/Neural Network -->
+  <g transform="translate(400, 200)">
+    <!-- Neural nodes -->
+    <circle cx="-60" cy="-40" r="6" fill="#00d4ff" opacity="0.8"/>
+    <circle cx="-60" cy="0" r="6" fill="#00d4ff" opacity="0.8"/>
+    <circle cx="-60" cy="40" r="6" fill="#00d4ff" opacity="0.8"/>
+    
+    <circle cx="0" cy="-60" r="8" fill="#00ff88" opacity="0.9"/>
+    <circle cx="0" cy="-20" r="8" fill="#00ff88" opacity="0.9"/>
+    <circle cx="0" cy="20" r="8" fill="#00ff88" opacity="0.9"/>
+    <circle cx="0" cy="60" r="8" fill="#00ff88" opacity="0.9"/>
+    
+    <circle cx="60" cy="-30" r="6" fill="#ff6b6b" opacity="0.8"/>
+    <circle cx="60" cy="10" r="6" fill="#ff6b6b" opacity="0.8"/>
+    <circle cx="60" cy="30" r="6" fill="#ff6b6b" opacity="0.8"/>
+    
+    <!-- Neural connections -->
+    <line x1="-54" y1="-40" x2="-8" y2="-60" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+    <line x1="-54" y1="0" x2="-8" y2="-20" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+    <line x1="-54" y1="40" x2="-8" y2="20" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+    
+    <line x1="8" y1="-60" x2="54" y2="-30" stroke="#00ff88" stroke-width="1" opacity="0.5"/>
+    <line x1="8" y1="-20" x2="54" y2="10" stroke="#00ff88" stroke-width="1" opacity="0.5"/>
+    <line x1="8" y1="20" x2="54" y2="30" stroke="#00ff88" stroke-width="1" opacity="0.5"/>
+  </g>
+  
+  <!-- Project title -->
+  <text x="400" y="50" text-anchor="middle" fill="url(#accent1)" font-family="Inter, sans-serif" font-size="32" font-weight="700">
+    Navigators.AI
+  </text>
+  <text x="400" y="75" text-anchor="middle" fill="#b3b3b3" font-family="Inter, sans-serif" font-size="16">
+    Agentic AI Travel Planning Platform
+  </text>
+  
+  <!-- Tech stack indicators -->
+  <rect x="50" y="350" width="60" height="25" rx="12" fill="#00d4ff" opacity="0.2"/>
+  <text x="80" y="367" text-anchor="middle" fill="#00d4ff" font-family="Inter, sans-serif" font-size="11" font-weight="500">Llama-8B</text>
+  
+  <rect x="120" y="350" width="45" height="25" rx="12" fill="#00ff88" opacity="0.2"/>
+  <text x="142" y="367" text-anchor="middle" fill="#00ff88" font-family="Inter, sans-serif" font-size="11" font-weight="500">CLIP</text>
+  
+  <rect x="175" y="350" width="60" height="25" rx="12" fill="#ff6b6b" opacity="0.2"/>
+  <text x="205" y="367" text-anchor="middle" fill="#ff6b6b" font-family="Inter, sans-serif" font-size="11" font-weight="500">AWS ECS</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="700" cy="350" r="3" fill="#ffd700" opacity="0.6"/>
+  <circle cx="750" cy="300" r="2" fill="#00d4ff" opacity="0.4"/>
+  <circle cx="50" cy="50" r="1.5" fill="#ff6b6b" opacity="0.5"/>
+</svg>

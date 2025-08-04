@@ -1,0 +1,43 @@
+<!-- Placeholder HTML file to indicate where to add your actual photo -->
+<!-- Replace this placeholder with your actual profile photo -->
+<!-- Recommended size: 400x400px, square aspect ratio -->
+<!-- File format: JPG or PNG -->
+<!-- 
+To add your photo:
+1. Take or select a professional headshot
+2. Resize it to 400x400px (square)
+3. Save it as 'placeholder-photo.jpg' in the same directory as index.html
+4. The website will automatically display your photo
+-->
+
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bg)" rx="200"/>
+  
+  <!-- Profile icon -->
+  <circle cx="200" cy="160" r="60" fill="#00d4ff" opacity="0.3"/>
+  <circle cx="200" cy="160" r="45" fill="none" stroke="#00d4ff" stroke-width="2"/>
+  <circle cx="200" cy="145" r="20" fill="#00d4ff"/>
+  <path d="M 160 200 Q 160 180 200 180 Q 240 180 240 200 L 240 220 Q 240 240 200 240 Q 160 240 160 220 Z" fill="#00d4ff"/>
+  
+  <!-- Text -->
+  <text x="200" y="280" text-anchor="middle" fill="#b3b3b3" font-family="Inter, sans-serif" font-size="16" font-weight="500">
+    Add Your Photo Here
+  </text>
+  <text x="200" y="300" text-anchor="middle" fill="#666666" font-family="Inter, sans-serif" font-size="12">
+    400x400px recommended
+  </text>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="2" fill="#00d4ff" opacity="0.5"/>
+  <circle cx="320" cy="120" r="1.5" fill="#ff6b6b" opacity="0.5"/>
+  <circle cx="80" cy="300" r="1" fill="#00ff88" opacity="0.5"/>
+  <circle cx="330" cy="320" r="2" fill="#ffd700" opacity="0.5"/>
+</svg>
