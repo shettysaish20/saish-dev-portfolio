@@ -269,27 +269,33 @@ body::before {
 }
 
 .btn {
-    padding: 12px 30px;
-    border-radius: var(--radius-medium);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all var(--transition-medium);
-    border: 2px solid transparent;
-    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 1rem 2rem;
     font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-medium);
+    transition: all var(--transition-medium);
+    cursor: pointer;
+    border: 2px solid transparent;
+    outline: none; /* Remove focus outline that might cause misalignment */
 }
+
 
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--bg-primary);
+    border: none; /* Remove any default border */
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    border-radius: var(--radius-medium); /* Ensure consistent border radius */
 }
 
 .btn-primary:hover {
+    background: linear-gradient(135deg, #0099cc, var(--primary-color));
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px var(--shadow-medium);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
 }
 
 .btn-secondary {
