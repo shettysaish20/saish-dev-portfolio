@@ -570,12 +570,12 @@ body::before {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    width: 60px;
-    height: 60px;
-    background: var(--bg-primary);
-    border-radius: var(--radius-medium);
-    padding: 8px;
-    border: 1px solid var(--border-color);
+    width: 130px; /* Increased from 60px */
+    height: 120px; /* Increased from 60px */
+    background: none;
+    border-radius: none;
+    padding: 10px; /* Increased padding */
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -599,21 +599,21 @@ body::before {
 }
 
 .timeline-header h3 {
+    margin-bottom: 0.25rem; /* Reduce space after position title */
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
     color: var(--text-primary);
 }
 
 .timeline-company {
     color: var(--primary-color);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     text-decoration: none;
     transition: all var(--transition-medium);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin: 0.25rem 0;
+    margin: 0.5rem 0 1rem 0; /* Add proper spacing between company and date */
 }
 
 .timeline-company i {
@@ -645,7 +645,7 @@ body::before {
 
 .timeline-location {
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .timeline-details {
@@ -680,41 +680,50 @@ body::before {
     background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
     color: var(--bg-primary);
     padding: 0.3rem 0.8rem;
+    text-decoration: none;
     border-radius: var(--radius-small);
     font-size: 0.8rem;
     font-weight: 600;
 }
 
-.certificate-section {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
+.award-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255, 149, 0, 0.3);
+    background: linear-gradient(135deg, #ff9500, var(--accent-color));
+    color: black;
 }
 
 .certificate-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
-    background: linear-gradient(135deg, var(--accent-color), #013067);
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Purple-blue gradient */
     color: white;
     text-decoration: none;
     border-radius: var(--radius-medium);
     font-size: 0.9rem;
     font-weight: 500;
     transition: all var(--transition-medium);
-    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.2);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .certificate-badge:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
-    background: linear-gradient(135deg, #ff6b6b, var(--accent-color));
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #764ba2, #667eea); /* Reverse gradient on hover */
 }
 
 .certificate-badge i {
     font-size: 1rem;
 }
+
+.certificate-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
 
 /* Projects Section */
 .projects {
