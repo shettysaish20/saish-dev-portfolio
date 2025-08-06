@@ -1259,6 +1259,7 @@ body::before {
     border-radius: var(--radius-medium);
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem; /* Add space below */
 }
 
 .location-info i {
