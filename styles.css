@@ -769,13 +769,13 @@ body::before {
     object-fit: cover;
 }
 
-.project-image::before {
+/* .project-image::before {
     content: 'Project Screenshot Placeholder';
     position: absolute;
     text-align: center;
     font-weight: 500;
     z-index: 1;
-}
+} */
 
 .project-overlay {
     position: absolute;
