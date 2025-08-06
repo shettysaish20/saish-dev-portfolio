@@ -1605,7 +1605,7 @@ body::before {
         margin-top: 1rem;
     }
     
-    /* Skills Section Mobile - Single Column */
+    /* Skills Section Mobile - Single Column with proper order */
     .skills-content {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -1615,6 +1615,8 @@ body::before {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         gap: 1.5rem;
+        display: flex;
+        flex-direction: column;
     }
     
     .skill-category {
@@ -1622,6 +1624,14 @@ body::before {
         min-height: auto;
         text-align: left;
     }
+    
+    /* Order skills properly for mobile - follow desktop order */
+    .skill-category:nth-child(1) { order: 1; } /* Programming & Frameworks */
+    .skill-category:nth-child(2) { order: 2; } /* AI & Machine Learning */
+    .skill-category:nth-child(3) { order: 5; } /* Certifications - move after Cloud */
+    .skill-category:nth-child(4) { order: 4; } /* Databases */
+    .skill-category:nth-child(5) { order: 3; } /* Cloud & DevOps */
+    .skill-category:nth-child(6) { order: 6; } /* Courses */
     
     .skill-tags {
         gap: 0.5rem;
@@ -1693,14 +1703,16 @@ body::before {
 }
 
 @media (max-width: 480px) {
-    /* Extra small mobile adjustments */
+    /* Extra small mobile adjustments - iPhone SE and similar */
     .hero {
-        padding-top: 90px; /* Extra padding for smaller screens */
+        padding-top: 110px; /* Increased padding for iPhone SE */
+        min-height: calc(100vh - 110px); /* Adjust min-height accordingly */
     }
     
     .name {
         font-size: 2.2rem;
         line-height: 1.1;
+        margin-bottom: 0.8rem;
     }
     
     .hero-subtitle {
@@ -1731,14 +1743,33 @@ body::before {
         height: 40px;
     }
     
+    /* About highlights alignment fix */
+    .about-highlights {
+        gap: 1rem;
+    }
+    
+    .highlight-item {
+        flex-direction: row;
+        text-align: left;
+        padding: 1rem;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .highlight-item i {
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+    }
+    
     .about-stats {
         flex-direction: column;
         gap: 1rem;
     }
     
+    /* Company logo size increase for visibility */
     .company-logo {
-        width: 60px;
-        height: 60px;
+        width: 100px;
+        height: 100px;
     }
     
     .timeline-content {
