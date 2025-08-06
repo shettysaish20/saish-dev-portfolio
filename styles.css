@@ -136,6 +136,18 @@ body::before {
     align-items: center;
 }
 
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-logo .logo-image {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
 .nav-logo .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
