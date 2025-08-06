@@ -257,7 +257,185 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
     
     createParticles();
+    
+    // Enhanced touch and cursor trail system
+    initializeTrailSystem();
+    
+    // Fix for persistent focus states on touch devices
+    if ('ontouchstart' in window) {
+    // Add touch event listeners to clear focus INSTANTLY after touch
+    document.addEventListener('touchend', function(e) {
+        // Instant clearing of focus without delay
+        setTimeout(() => {
+            if (document.activeElement && 
+                (document.activeElement.tagName === 'A' || 
+                document.activeElement.tagName === 'BUTTON' ||
+                document.activeElement.classList.contains('social-link') ||
+                document.activeElement.classList.contains('btn') ||
+                document.activeElement.classList.contains('nav-link') ||
+                document.activeElement.classList.contains('contact-method') ||
+                document.activeElement.classList.contains('cert-item') ||
+                document.activeElement.classList.contains('timeline-company'))) {
+                document.activeElement.blur();
+            }
+        }, 10); // Almost instant - just 10ms for the touch to register
+    });
+    }
 });
+
+// Enhanced trail system for both desktop and mobile
+function initializeTrailSystem() {
+    let touchTrails = new Map(); // For multi-touch support
+    let isTouch = false;
+    
+    // Check if device has touch capability
+    const hasTouch = 'ontouchstart' in window;
+    
+    // Only handle touch trail system here (desktop is handled by the original code at line 620+)
+    if (hasTouch) {
+        // Create trail elements for touch
+        function createTouchTrailElement(touchId) {
+            const trails = [];
+            for (let i = 0; i < 6; i++) {
+                const trail = document.createElement('div');
+                trail.className = `touch-trail touch-trail-${touchId}`;
+                trail.style.cssText = `
+                    position: fixed;
+                    width: ${8 - i}px;
+                    height: ${8 - i}px;
+                    background: var(--primary-color);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    opacity: 0;
+                    z-index: 9998;
+                    transition: opacity 0.05s ease;
+                    transform: translate(-50%, -50%);
+                `;
+                document.body.appendChild(trail);
+                trails.push(trail);
+            }
+            return trails;
+        }
+        
+        // Track touch start - create trails for ALL touches
+        document.addEventListener('touchstart', (e) => {
+            isTouch = true;
+            
+            // Create trail for each touch point
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                const touchId = touch.identifier;
+                
+                if (!touchTrails.has(touchId)) {
+                    const trails = createTouchTrailElement(touchId);
+                    touchTrails.set(touchId, {
+                        trails: trails,
+                        x: touch.clientX,
+                        y: touch.clientY,
+                        positions: [{x: touch.clientX, y: touch.clientY}]
+                    });
+                    
+                    // Show trails immediately
+                    trails.forEach((trail, index) => {
+                        trail.style.left = touch.clientX + 'px';
+                        trail.style.top = touch.clientY + 'px';
+                        trail.style.opacity = (0.6 - index * 0.1);
+                    });
+                }
+            }
+        });
+        
+        // Track touch move - animate trails for ALL touches
+        document.addEventListener('touchmove', (e) => {
+    // Remove this line that's causing the error:
+    // e.preventDefault(); // Prevent scrolling issues
+    
+    isTouch = true;
+    
+    for (let i = 0; i < e.touches.length; i++) {
+        const touch = e.touches[i];
+        const touchId = touch.identifier;
+        const touchData = touchTrails.get(touchId);
+        
+        if (touchData) {
+            // Update position
+            touchData.x = touch.clientX;
+            touchData.y = touch.clientY;
+            
+            // Store position history for trailing effect
+            touchData.positions.unshift({x: touch.clientX, y: touch.clientY});
+            if (touchData.positions.length > 6) {
+                touchData.positions = touchData.positions.slice(0, 6);
+            }
+            
+            // Animate trail with trailing effect
+            touchData.trails.forEach((trail, index) => {
+                const pos = touchData.positions[index] || touchData.positions[touchData.positions.length - 1];
+                trail.style.left = pos.x + 'px';
+                trail.style.top = pos.y + 'px';
+                trail.style.opacity = (0.6 - index * 0.1);
+            });
+            }
+            }
+        });
+        
+        // Track touch end - immediate cleanup
+        document.addEventListener('touchend', (e) => {
+            // Get remaining active touches
+            const activeTouchIds = new Set();
+            for (let i = 0; i < e.touches.length; i++) {
+                activeTouchIds.add(e.touches[i].identifier);
+            }
+            
+            // Clean up ended touches immediately
+            touchTrails.forEach((touchData, touchId) => {
+                if (!activeTouchIds.has(touchId)) {
+                    // Hide trails immediately
+                    touchData.trails.forEach(trail => {
+                        trail.style.opacity = '0';
+                    });
+                    
+                    // Remove trails after brief delay
+                    setTimeout(() => {
+                        touchData.trails.forEach(trail => {
+                            if (trail.parentNode) {
+                                trail.parentNode.removeChild(trail);
+                            }
+                        });
+                        touchTrails.delete(touchId);
+                    }, 50);
+                }
+            });
+            
+            // If no touches remain, set isTouch to false
+            if (e.touches.length === 0) {
+                isTouch = false;
+            }
+        });
+        
+        // Clean up on touch cancel
+        document.addEventListener('touchcancel', (e) => {
+            touchTrails.forEach((touchData, touchId) => {
+                touchData.trails.forEach(trail => {
+                    trail.style.opacity = '0';
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                });
+            });
+            touchTrails.clear();
+            isTouch = false;
+        });
+        
+        // Hide desktop cursor trails on touch
+        document.addEventListener('touchstart', () => {
+            const desktopTrails = document.querySelectorAll('.cursor-trail:not(.touch-trail)');
+            desktopTrails.forEach(trail => {
+                trail.style.opacity = '0';
+            });
+        });
+    }
+}
 
 // Project expansion functionality
 function toggleProject(projectId) {
