@@ -125,27 +125,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const text = heroTitle.textContent;
         heroTitle.textContent = '';
         
+        // Create a separate cursor element to avoid text shifting
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        cursor.textContent = '|';
+        cursor.style.cssText = `
+            color: var(--primary-color);
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        `;
+        heroTitle.appendChild(cursor);
+        
         let i = 0;
         function typeWriter() {
             if (i < text.length) {
-                heroTitle.textContent = text.substring(0, i + 1) + '|';
+                const textNode = document.createTextNode(text[i]);
+                heroTitle.insertBefore(textNode, cursor);
                 i++;
                 setTimeout(typeWriter, 100);
             } else {
                 // After typing is complete, blink cursor for 2 seconds then remove it
-                let blinkCount = 0;
-                const blinkInterval = setInterval(() => {
-                    if (heroTitle.textContent.endsWith('|')) {
-                        heroTitle.textContent = text;
-                    } else {
-                        heroTitle.textContent = text + '|';
-                    }
-                    blinkCount++;
-                    if (blinkCount > 5) { // Blink 5 times (2 seconds at 400ms intervals)
-                        clearInterval(blinkInterval);
-                        heroTitle.textContent = text; // Remove cursor
-                    }
-                }, 400);
+                setTimeout(() => {
+                    cursor.remove();
+                }, 2000);
             }
         }
         setTimeout(typeWriter, 1000);
