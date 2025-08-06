@@ -918,6 +918,7 @@ body::before {
 .project-details ul {
     list-style: none;
     padding: 0;
+    margin-bottom: 1.5rem; /* Add space after last point */
 }
 
 .project-details li {
