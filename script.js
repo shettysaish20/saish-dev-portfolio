@@ -412,8 +412,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(loadingStyle);
 });
 
-// Cursor trail effect (optional enhancement)
+// Cursor trail effect (optional enhancement) - Only for non-touch devices
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if device supports hover (has a mouse/pointer) - exclude touch devices
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+    
+    // Only create cursor trail for devices with mouse/pointer support
+    if (!hasHover) {
+        return; // Exit early for touch devices
+    }
+    
     let mouseX = 0;
     let mouseY = 0;
     let trailElements = [];
