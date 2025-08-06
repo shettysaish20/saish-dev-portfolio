@@ -1379,6 +1379,11 @@ body::before {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Fix navigation overlap bug */
+    .hero {
+        padding-top: 120px; /* Add padding to prevent navbar overlap */
+    }
+    
     .hamburger {
         display: flex;
     }
@@ -1395,6 +1400,7 @@ body::before {
         backdrop-filter: blur(20px);
         border-top: 1px solid var(--border-color);
         padding: 2rem 0;
+        z-index: 1001;
     }
     
     .nav-menu.active {
@@ -1405,87 +1411,343 @@ body::before {
         margin: 1rem 0;
     }
     
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    
+    /* Hero Section Mobile Layout - Reorder content */
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 3rem;
+        gap: 2rem;
+        display: flex;
+        flex-direction: column;
     }
     
-    .name {
-        font-size: 3rem;
+    .hero-text {
+        display: flex;
+        flex-direction: column;
     }
     
-    .hero-buttons {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .about-content {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-    
-    .about-stats {
-        flex-direction: row;
-        justify-content: space-around;
-    }
-    
-    .skills-content {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-    
-    .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-    }
-    
-    .contact-content {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-    
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .timeline::before {
-        left: 15px;
-    }
-    
-    .timeline-item {
-        padding-left: 50px;
-    }
-    
-    .timeline-dot {
-        left: 6px;
-    }
-    
-    .section-title {
-        font-size: 2.5rem;
-    }
-    
-    .container {
-        padding: 0 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-social {
-        justify-content: center;
-    }
-    
-    .name {
-        font-size: 2.5rem;
+    .hero-title {
+        order: 1;
     }
     
     .hero-subtitle {
-        font-size: 1.5rem;
+        order: 2;
+    }
+    
+    .hero-image {
+        order: 3;
+        margin: 1rem 0;
+    }
+    
+    .hero-description {
+        order: 4;
+    }
+    
+    .hero-buttons {
+        order: 5;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .hero-social {
+        order: 6;
+        justify-content: center;
+    }
+    
+    .image-container {
+        width: 250px;
+        height: 250px;
+        margin: 0 auto;
+    }
+    
+    .greeting {
+        font-size: 1rem;
+    }
+    
+    .name {
+        font-size: 2.8rem;
+        line-height: 1.1;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .social-link {
+        width: 45px;
+        height: 45px;
+    }
+    
+    /* About Section Mobile */
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .about-highlights {
+        gap: 1rem;
+    }
+    
+    .highlight-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.2rem;
     }
     
     .about-stats {
         flex-direction: column;
         gap: 1rem;
+    }
+    
+    /* Experience Section Mobile - Company logo above position */
+    .timeline {
+        padding-left: 0;
+    }
+    
+    .timeline::before {
+        display: none; /* Hide timeline line on mobile */
+    }
+    
+    .timeline-item {
+        padding-left: 0;
+        margin-bottom: 2rem;
+    }
+    
+    .timeline-dot {
+        display: none; /* Hide timeline dots on mobile */
+    }
+    
+    .timeline-content {
+        margin-left: 0;
+        text-align: center;
+        position: relative;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .company-logo {
+        position: static;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1rem auto;
+        order: 1;
+    }
+    
+    .timeline-header {
+        order: 2;
+        margin-bottom: 1rem;
+    }
+    
+    .timeline-header h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .timeline-company {
+        font-size: 1rem;
+        justify-content: center;
+        margin: 0.5rem 0;
+    }
+    
+    .timeline-date {
+        display: block;
+        margin: 0.5rem auto;
+        text-align: center;
+    }
+    
+    .timeline-location {
+        display: block;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .timeline-details {
+        order: 3;
+        text-align: left;
+    }
+    
+    .achievement {
+        margin-bottom: 1rem;
+    }
+    
+    .achievement h4 {
+        font-size: 1rem;
+    }
+    
+    .awards {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    /* Skills Section Mobile - Single Column */
+    .skills-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 1.5rem;
+    }
+    
+    .skill-category {
+        width: 100%;
+        min-height: auto;
+        text-align: left;
+    }
+    
+    .skill-tags {
+        gap: 0.5rem;
+    }
+    
+    .skill-tag {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    /* Courses section mobile */
+    .school-card {
+        text-align: left;
+    }
+    
+    .school-header {
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .course-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+    
+    .course-details span {
+        text-align: left;
+        white-space: normal;
+    }
+    
+    /* Contact Section Mobile */
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .contact-methods {
+        gap: 1rem;
+    }
+    
+    .contact-method {
+        flex-direction: row;
+        text-align: left;
+        padding: 1rem;
+    }
+    
+    /* Projects Section Mobile */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    /* General Mobile Styles */
+    .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Section padding mobile */
+    section {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small mobile adjustments */
+    .hero {
+        padding-top: 90px; /* Extra padding for smaller screens */
+    }
+    
+    .name {
+        font-size: 2.2rem;
+        line-height: 1.1;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    
+    .image-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+    }
+    
+    .hero-social {
+        justify-content: center;
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .about-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .company-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .timeline-content {
+        padding: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
     }
     
     .footer-content {
@@ -1501,5 +1763,9 @@ body::before {
     .skills-grid {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+    }
+    
+    .container {
+        padding: 0 10px;
     }
 }
