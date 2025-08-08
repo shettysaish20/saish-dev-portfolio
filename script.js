@@ -259,6 +259,9 @@ document.addEventListener('DOMContentLoaded', function() {
     createParticles();
     
     // Enhanced touch and cursor trail system
+    // TODO: Add smooth trailing effect for mobile touch interactions
+    // TODO: Objects should return to its natural state after touch is released
+    // TODO: Add space after last point inside project details
     initializeTrailSystem();
     
     // Fix for persistent focus states on touch devices
