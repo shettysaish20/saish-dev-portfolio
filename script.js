@@ -266,23 +266,35 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fix for persistent focus states on touch devices
     if ('ontouchstart' in window) {
-    // Add touch event listeners to clear focus INSTANTLY after touch
-    document.addEventListener('touchend', function(e) {
-        // Instant clearing of focus without delay
-        setTimeout(() => {
-            if (document.activeElement && 
-                (document.activeElement.tagName === 'A' || 
-                document.activeElement.tagName === 'BUTTON' ||
-                document.activeElement.classList.contains('social-link') ||
-                document.activeElement.classList.contains('btn') ||
-                document.activeElement.classList.contains('nav-link') ||
-                document.activeElement.classList.contains('contact-method') ||
-                document.activeElement.classList.contains('cert-item') ||
-                document.activeElement.classList.contains('timeline-company'))) {
+        // Add touch event listeners to clear focus instantly after touch
+        document.addEventListener('touchend', function() {
+            setTimeout(() => {
+                if (document.activeElement &&
+                    (document.activeElement.tagName === 'A' ||
+                     document.activeElement.tagName === 'BUTTON' ||
+                     document.activeElement.classList.contains('social-link') ||
+                     document.activeElement.classList.contains('btn') ||
+                     document.activeElement.classList.contains('nav-link') ||
+                     document.activeElement.classList.contains('contact-method') ||
+                     document.activeElement.classList.contains('cert-item') ||
+                     document.activeElement.classList.contains('timeline-company'))) {
+                    document.activeElement.blur();
+                }
+            }, 10);
+        }, { passive: true });
+
+        // Also clear any lingering states when coming back to the page
+        const clearTouchStates = () => {
+            const els = document.querySelectorAll('a, button, .social-link, .btn, .nav-link, .contact-method, .cert-item, .timeline-company, .expand-btn');
+            els.forEach(el => el.classList.remove('active'));
+            if (document.activeElement && document.activeElement.blur) {
                 document.activeElement.blur();
             }
-        }, 10); // Almost instant - just 10ms for the touch to register
-    });
+        };
+        window.addEventListener('pageshow', clearTouchStates);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') clearTouchStates();
+        });
     }
 });
 
@@ -335,7 +347,7 @@ function initializeTrailSystem() {
                         trails: trails,
                         x: touch.clientX,
                         y: touch.clientY,
-                        positions: [{x: touch.clientX, y: touch.clientY}]
+                        dotPos: Array.from({ length: trails.length }, () => ({ x: touch.clientX, y: touch.clientY }))
                     });
                     
                     // Show trails immediately
@@ -346,41 +358,21 @@ function initializeTrailSystem() {
                     });
                 }
             }
-        });
+        }, { passive: true });
         
-        // Track touch move - animate trails for ALL touches
+        // Track touch move - update target positions only
         document.addEventListener('touchmove', (e) => {
-    // Remove this line that's causing the error:
-    // e.preventDefault(); // Prevent scrolling issues
-    
-    isTouch = true;
-    
-    for (let i = 0; i < e.touches.length; i++) {
-        const touch = e.touches[i];
-        const touchId = touch.identifier;
-        const touchData = touchTrails.get(touchId);
-        
-        if (touchData) {
-            // Update position
-            touchData.x = touch.clientX;
-            touchData.y = touch.clientY;
-            
-            // Store position history for trailing effect
-            touchData.positions.unshift({x: touch.clientX, y: touch.clientY});
-            if (touchData.positions.length > 6) {
-                touchData.positions = touchData.positions.slice(0, 6);
+            isTouch = true;
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                const touchId = touch.identifier;
+                const touchData = touchTrails.get(touchId);
+                if (touchData) {
+                    touchData.x = touch.clientX;
+                    touchData.y = touch.clientY;
+                }
             }
-            
-            // Animate trail with trailing effect
-            touchData.trails.forEach((trail, index) => {
-                const pos = touchData.positions[index] || touchData.positions[touchData.positions.length - 1];
-                trail.style.left = pos.x + 'px';
-                trail.style.top = pos.y + 'px';
-                trail.style.opacity = (0.6 - index * 0.1);
-            });
-            }
-            }
-        });
+        }, { passive: true });
         
         // Track touch end - immediate cleanup
         document.addEventListener('touchend', (e) => {
@@ -414,10 +406,10 @@ function initializeTrailSystem() {
             if (e.touches.length === 0) {
                 isTouch = false;
             }
-        });
+        }, { passive: true });
         
         // Clean up on touch cancel
-        document.addEventListener('touchcancel', (e) => {
+        document.addEventListener('touchcancel', () => {
             touchTrails.forEach((touchData, touchId) => {
                 touchData.trails.forEach(trail => {
                     trail.style.opacity = '0';
@@ -428,7 +420,7 @@ function initializeTrailSystem() {
             });
             touchTrails.clear();
             isTouch = false;
-        });
+        }, { passive: true });
         
         // Hide desktop cursor trails on touch
         document.addEventListener('touchstart', () => {
@@ -436,7 +428,39 @@ function initializeTrailSystem() {
             desktopTrails.forEach(trail => {
                 trail.style.opacity = '0';
             });
-        });
+        }, { passive: true });
+
+        // Smooth animation loop for touch trails (desktop handled separately)
+        const animateTouchTrails = () => {
+            // For each active touch, ease each dot towards its target
+            touchTrails.forEach(touchData => {
+                if (!touchData || !touchData.trails) return;
+                const easeHead = 0.35; // faster head
+                const easeTail = 0.25; // slower tail
+                // First dot eases towards finger
+                if (!touchData.dotPos || touchData.dotPos.length !== touchData.trails.length) {
+                    touchData.dotPos = Array.from({ length: touchData.trails.length }, () => ({ x: touchData.x, y: touchData.y }));
+                }
+                const first = touchData.dotPos[0];
+                first.x += (touchData.x - first.x) * easeHead;
+                first.y += (touchData.y - first.y) * easeHead;
+                // Remaining dots ease towards the previous dot
+                for (let i = 1; i < touchData.trails.length; i++) {
+                    const prev = touchData.dotPos[i - 1];
+                    const curr = touchData.dotPos[i];
+                    curr.x += (prev.x - curr.x) * easeTail;
+                    curr.y += (prev.y - curr.y) * easeTail;
+                }
+                // Paint
+                touchData.trails.forEach((trail, i) => {
+                    const p = touchData.dotPos[i];
+                    trail.style.left = p.x + 'px';
+                    trail.style.top = p.y + 'px';
+                });
+            });
+            requestAnimationFrame(animateTouchTrails);
+        };
+        requestAnimationFrame(animateTouchTrails);
     }
 }
 

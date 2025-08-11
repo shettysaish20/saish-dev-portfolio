@@ -5,7 +5,7 @@
 Welcome to my personal technical portfolio!  
 Showcasing my journey as a Data Scientist & AI Engineer — featuring projects in Generative AI, Deep Learning, and Agentic Systems.
 
-🌐 **Live Website:** [Coming Soon!](#)
+🌐 **Live Website:** [saishshetty.com](https://saishshetty.com)
 
 ## ✨ Features
 

@@ -931,6 +931,7 @@ body::before {
     list-style: none;
     padding: 0;
     margin-bottom: 1.5rem; /* Add space after last point */
+    padding-bottom: 1rem; /* Ensure some breathing room at the end */
 }
 
 .project-details li {
@@ -1178,7 +1179,7 @@ body::before {
     font-style: italic;
     text-align: right; /* Align duration to the right */
     white-space: nowrap; /* Prevent text wrapping */
-}x
+}
 
 /* Contact Section */
 .contact {
