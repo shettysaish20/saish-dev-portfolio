@@ -261,7 +261,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Enhanced touch and cursor trail system
     // TODO: Add smooth trailing effect for mobile touch interactions
     // TODO: Objects should return to its natural state after touch is released
-    // TODO: Add space after last point inside project details
     initializeTrailSystem();
     
     // Fix for persistent focus states on touch devices
@@ -435,8 +434,8 @@ function initializeTrailSystem() {
             // For each active touch, ease each dot towards its target
             touchTrails.forEach(touchData => {
                 if (!touchData || !touchData.trails) return;
-                const easeHead = 0.35; // faster head
-                const easeTail = 0.25; // slower tail
+                const easeHead = 0.20; // faster head
+                const easeTail = 0.20; // slower tail
                 // First dot eases towards finger
                 if (!touchData.dotPos || touchData.dotPos.length !== touchData.trails.length) {
                     touchData.dotPos = Array.from({ length: touchData.trails.length }, () => ({ x: touchData.x, y: touchData.y }));
