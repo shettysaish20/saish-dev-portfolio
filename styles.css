@@ -925,13 +925,12 @@ body::before {
 .project-details.expanded {
     max-height: 300px;
     padding: 2rem;
+    margin-bottom: 1rem;
 }
 
 .project-details ul {
     list-style: none;
     padding: 0;
-    margin-bottom: 1.5rem; /* Add space after last point */
-    padding-bottom: 1rem; /* Ensure some breathing room at the end */
 }
 
 .project-details li {
