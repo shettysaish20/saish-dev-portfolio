@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
-    
+
     // Ensure page starts at top on refresh
     window.scrollTo(0, 0);
-    
+
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const targetId = link.getAttribute('href');
             const targetSection = document.querySelector(targetId);
-            
+
             if (targetSection) {
                 const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
                 window.scrollTo({
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Active navigation link highlighting
     const sections = document.querySelectorAll('section');
-    
+
     function updateActiveNav() {
         const scrollPosition = window.scrollY + 100;
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
-    
+
     function updateNavbar() {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Scroll event listeners
     let ticking = false;
-    
+
     function onScroll() {
         if (!ticking) {
             requestAnimationFrame(() => {
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.addEventListener('scroll', onScroll);
-    
+
     // Initial calls
     updateActiveNav();
     updateNavbar();
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (heroTitle) {
         const text = heroTitle.textContent;
         heroTitle.textContent = '';
-        
+
         // Create a separate cursor element to avoid text shifting
         const cursor = document.createElement('span');
         cursor.className = 'typing-cursor';
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
             margin-left: 2px;
         `;
         heroTitle.appendChild(cursor);
-        
+
         let i = 0;
         function typeWriter() {
             if (i < text.length) {
@@ -157,18 +157,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Counter animation for stats
     function animateCounters() {
         const counters = document.querySelectorAll('.stat-number');
-        
+
         counters.forEach(counter => {
             const target = counter.textContent;
             const isPercentage = target.includes('%');
             const isPlus = target.includes('+');
             const numericValue = parseInt(target.replace(/[^0-9]/g, ''));
-            
+
             counter.textContent = '0';
-            
+
             const increment = numericValue / 50;
             let current = 0;
-            
+
             const timer = setInterval(() => {
                 current += increment;
                 if (current >= numericValue) {
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, { threshold: 0.5 });
-        
+
         statsObserver.observe(statsSection);
     }
 
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             overflow: hidden;
             z-index: -1;
         `;
-        
+
         for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
             particle.style.cssText = `
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             particlesContainer.appendChild(particle);
         }
-        
+
         hero.appendChild(particlesContainer);
     }
 
@@ -255,14 +255,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
-    
+
     createParticles();
-    
+
+    // Make ERA-V3 course item open certificate in a new tab
+    const eraV3 = document.querySelector('.era-v3-cert');
+    if (eraV3) {
+        eraV3.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation(); // prevent navigating the parent school-card link
+            window.open(
+                'https://saish-personal-docs.s3.ap-south-1.amazonaws.com/certificates/TSAI/ERA-V3/Saish+Shetty+ERA+V3+Completion+Certificate.pdf',
+                '_blank',
+                'noopener,noreferrer'
+            );
+        });
+    }
+
+    // EAG-V1 card linking to certificate
+    const eagV1 = document.querySelector('.eag-v1-cert');
+    if (eagV1) {
+        eagV1.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(
+                'https://saish-personal-docs.s3.ap-south-1.amazonaws.com/certificates/TSAI/EAG-V1/EAG+V1+Completion+Certificate+Saish.pdf',
+                '_blank',
+                'noopener,noreferrer'
+            );
+        });
+    }
+
+    // Keyboard accessibility for ERA-V3 card
+    document.addEventListener('keydown', function (e) {
+        const active = document.activeElement;
+        if (
+            active && active.classList &&
+            (active.classList.contains('era-v3-cert') || active.classList.contains('eag-v1-cert')) &&
+            (e.key === 'Enter' || e.key === ' ')
+        ) {
+            e.preventDefault();
+            e.stopPropagation();
+            const url = active.classList.contains('era-v3-cert')
+                ? 'https://saish-personal-docs.s3.ap-south-1.amazonaws.com/certificates/TSAI/ERA-V3/Saish+Shetty+ERA+V3+Completion+Certificate.pdf'
+                : 'https://saish-personal-docs.s3.ap-south-1.amazonaws.com/certificates/TSAI/EAG-V1/EAG+V1+Completion+Certificate+Saish.pdf';
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+    });
+
     // Enhanced touch and cursor trail system
     // TODO: Add smooth trailing effect for mobile touch interactions
     // TODO: Objects should return to its natural state after touch is released
     initializeTrailSystem();
-    
+
     // Fix for persistent focus states on touch devices
     if ('ontouchstart' in window) {
         // Add touch event listeners to clear focus instantly after touch
@@ -270,13 +315,13 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 if (document.activeElement &&
                     (document.activeElement.tagName === 'A' ||
-                     document.activeElement.tagName === 'BUTTON' ||
-                     document.activeElement.classList.contains('social-link') ||
-                     document.activeElement.classList.contains('btn') ||
-                     document.activeElement.classList.contains('nav-link') ||
-                     document.activeElement.classList.contains('contact-method') ||
-                     document.activeElement.classList.contains('cert-item') ||
-                     document.activeElement.classList.contains('timeline-company'))) {
+                        document.activeElement.tagName === 'BUTTON' ||
+                        document.activeElement.classList.contains('social-link') ||
+                        document.activeElement.classList.contains('btn') ||
+                        document.activeElement.classList.contains('nav-link') ||
+                        document.activeElement.classList.contains('contact-method') ||
+                        document.activeElement.classList.contains('cert-item') ||
+                        document.activeElement.classList.contains('timeline-company'))) {
                     document.activeElement.blur();
                 }
             }, 10);
@@ -301,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeTrailSystem() {
     let touchTrails = new Map(); // For multi-touch support
     let isTouch = false;
-    
+
     // Check if device has touch capability
     const hasTouch = 'ontouchstart' in window;
-    
+
     // Only handle touch trail system here (desktop is handled by the original code at line 620+)
     if (hasTouch) {
         // Create trail elements for touch
@@ -330,16 +375,16 @@ function initializeTrailSystem() {
             }
             return trails;
         }
-        
+
         // Track touch start - create trails for ALL touches
         document.addEventListener('touchstart', (e) => {
             isTouch = true;
-            
+
             // Create trail for each touch point
             for (let i = 0; i < e.touches.length; i++) {
                 const touch = e.touches[i];
                 const touchId = touch.identifier;
-                
+
                 if (!touchTrails.has(touchId)) {
                     const trails = createTouchTrailElement(touchId);
                     touchTrails.set(touchId, {
@@ -348,7 +393,7 @@ function initializeTrailSystem() {
                         y: touch.clientY,
                         dotPos: Array.from({ length: trails.length }, () => ({ x: touch.clientX, y: touch.clientY }))
                     });
-                    
+
                     // Show trails immediately
                     trails.forEach((trail, index) => {
                         trail.style.left = touch.clientX + 'px';
@@ -358,7 +403,7 @@ function initializeTrailSystem() {
                 }
             }
         }, { passive: true });
-        
+
         // Track touch move - update target positions only
         document.addEventListener('touchmove', (e) => {
             isTouch = true;
@@ -372,7 +417,7 @@ function initializeTrailSystem() {
                 }
             }
         }, { passive: true });
-        
+
         // Track touch end - immediate cleanup
         document.addEventListener('touchend', (e) => {
             // Get remaining active touches
@@ -380,7 +425,7 @@ function initializeTrailSystem() {
             for (let i = 0; i < e.touches.length; i++) {
                 activeTouchIds.add(e.touches[i].identifier);
             }
-            
+
             // Clean up ended touches immediately
             touchTrails.forEach((touchData, touchId) => {
                 if (!activeTouchIds.has(touchId)) {
@@ -388,7 +433,7 @@ function initializeTrailSystem() {
                     touchData.trails.forEach(trail => {
                         trail.style.opacity = '0';
                     });
-                    
+
                     // Remove trails after brief delay
                     setTimeout(() => {
                         touchData.trails.forEach(trail => {
@@ -400,13 +445,13 @@ function initializeTrailSystem() {
                     }, 50);
                 }
             });
-            
+
             // If no touches remain, set isTouch to false
             if (e.touches.length === 0) {
                 isTouch = false;
             }
         }, { passive: true });
-        
+
         // Clean up on touch cancel
         document.addEventListener('touchcancel', () => {
             touchTrails.forEach((touchData, touchId) => {
@@ -420,7 +465,7 @@ function initializeTrailSystem() {
             touchTrails.clear();
             isTouch = false;
         }, { passive: true });
-        
+
         // Hide desktop cursor trails on touch
         document.addEventListener('touchstart', () => {
             const desktopTrails = document.querySelectorAll('.cursor-trail:not(.touch-trail)');
@@ -468,7 +513,7 @@ function toggleProject(projectId) {
     const details = document.getElementById(`project-${projectId}-details`);
     const button = document.querySelector(`[data-project="${projectId}"] .expand-btn`);
     const icon = button.querySelector('i');
-    
+
     if (details.classList.contains('expanded')) {
         details.classList.remove('expanded');
         button.classList.remove('active');
@@ -484,7 +529,7 @@ function toggleProject(projectId) {
             btn.querySelector('span').textContent = 'View Details';
             btn.querySelector('i').style.transform = 'rotate(0deg)';
         });
-        
+
         // Open current project
         details.classList.add('expanded');
         button.classList.add('active');
@@ -496,12 +541,12 @@ function toggleProject(projectId) {
 // Skill tag hover effect
 document.addEventListener('DOMContentLoaded', function() {
     const skillTags = document.querySelectorAll('.skill-tag');
-    
+
     skillTags.forEach(tag => {
         tag.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px) scale(1.05)';
         });
-        
+
         tag.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
         });
@@ -530,9 +575,9 @@ function createScrollToTop() {
         z-index: 1000;
         box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
     `;
-    
+
     document.body.appendChild(scrollBtn);
-    
+
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
             scrollBtn.style.opacity = '1';
@@ -542,18 +587,18 @@ function createScrollToTop() {
             scrollBtn.style.visibility = 'hidden';
         }
     });
-    
+
     scrollBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
     });
-    
+
     scrollBtn.addEventListener('mouseenter', () => {
         scrollBtn.style.transform = 'translateY(-3px) scale(1.1)';
     });
-    
+
     scrollBtn.addEventListener('mouseleave', () => {
         scrollBtn.style.transform = 'translateY(0) scale(1)';
     });
@@ -620,16 +665,16 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Check if device supports hover (has a mouse/pointer) - exclude touch devices
     const hasHover = window.matchMedia('(hover: hover)').matches;
-    
+
     // Only create cursor trail for devices with mouse/pointer support
     if (!hasHover) {
         return; // Exit early for touch devices
     }
-    
+
     let mouseX = 0;
     let mouseY = 0;
     let trailElements = [];
-    
+
     // Create trail elements
     for (let i = 0; i < 6; i++) {
         const trail = document.createElement('div');
@@ -649,37 +694,37 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(trail);
         trailElements.push(trail);
     }
-    
+
     // Update mouse position
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
-    
+
     // Animate trail
     function animateTrail() {
         let x = mouseX;
         let y = mouseY;
-        
+
         trailElements.forEach((trail, index) => {
             setTimeout(() => {
                 trail.style.left = x + 'px';
                 trail.style.top = y + 'px';
             }, index * 50);
         });
-        
+
         requestAnimationFrame(animateTrail);
     }
-    
+
     animateTrail();
-    
+
     // Hide trail when mouse leaves window
     document.addEventListener('mouseleave', () => {
         trailElements.forEach(trail => {
             trail.style.opacity = '0';
         });
     });
-    
+
     document.addEventListener('mouseenter', () => {
         trailElements.forEach((trail, index) => {
             trail.style.opacity = 0.6 - index * 0.1;

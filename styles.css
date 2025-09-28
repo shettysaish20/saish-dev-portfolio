@@ -1,3 +1,23 @@
+/* ERA-V3 certificate clickable item */
+.era-v3-cert {
+    cursor: pointer;
+}
+
+.era-v3-cert:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+.eag-v1-cert {
+    cursor: pointer;
+}
+
+.eag-v1-cert:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+    border-radius: 8px;
+}
 /* Reset and Base Styles */
 * {
     margin: 0;
